@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Invitation;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\InvitationMail;
 
 class ColocationController extends Controller
 {
@@ -57,7 +58,7 @@ class ColocationController extends Controller
     public function sendInvitaion(Request $request, Colocation $colocation)
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email',
+            'email' => 'required|email',
         ]);
 
         $token = Str::random(40);
@@ -65,14 +66,14 @@ class ColocationController extends Controller
             'colocation_id' => $colocation->id,
             'email' => $request->email,
             'token' => $token,
+            'status' => 'pending',
+            'expires_at' => now()->addDays(7),
         ]);
 
-        $link = route('invitations.accept', $token);
+        $link = route('invitations.show', $token);
         
-        Mail::raw("You have been invited to join the colocation '{$colocation->name}'. Click the link to accept: $link", function ($message) use ($request) {
-            $message->to($request->email)
-                    ->subject('Colocation Invitation');
-        });
+        Mail::to($request->email)->send(new InvitationMail($link));
+
 
         return back()->with('success', 'Invitation sent successfully.');
     }

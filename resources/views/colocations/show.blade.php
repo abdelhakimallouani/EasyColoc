@@ -9,7 +9,30 @@
         {{ $colocation->description }}
     </p>
 
-    <a href="">ajouter une membre</a>
+    <div class="bg-white shadow p-6 rounded">
+
+        <h3 class="text-lg font-semibold mb-4">
+            Ajouter un membre (Invitation)
+        </h3>
+
+        <form method="POST"
+              action="{{ route('colocations.invite',$colocation->id) }}">
+
+            @csrf
+
+            <input type="email"
+                   name="email"
+                   placeholder="Email membre"
+                   class="w-full border rounded p-2 mb-3"
+                   required>
+
+            <button class="bg-blue-600 text-black px-4 py-2 rounded">
+                Envoyer invitation
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
 </x-app-layout>

@@ -22,13 +22,18 @@ class InvitationController extends Controller
         $invitation = Invitation::where('token', $token)->where('status', 'pending')->where('expires_at', '>', now())->firstOrFail();
 
         $user = Auth::user();
-        if ($user->colocations()->wherePivotNull('left_at')
-            ->exists()) {
+
+        // if ($user->email !== $invitation->email) {
+        //     abort(403);
+        // }
+
+        if ($user->colocations()->wherePivotNull('left_at')->exists()) {
             abort(403);
         }
 
+        $invitation->colocation()->members()->attach($user->id, ['role' => 'member', 'joined_at' => now()]);
+
         $invitation->update(['status' => 'accepted']);
-        $invitation->colocation->members()->attach($user->id, ['role' => 'member', 'joined_at' => now()]);
         return redirect()->route('colocations.show', $invitation->colocation_id)->with('success', 'Invitation accepted!');
     }
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ColocationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InvitationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,7 +23,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/colocations', [ColocationController::class, 'store'])->name('colocations.store');
     Route::get('/colocations/{colocation}', [ColocationController::class, 'show'])->name('colocations.show');
 
-    Route::post('/colocations/{colocation}/invite', [ColocationController::class, 'sendInvitaion'])->name('colocations.invite');
+    Route::post('/colocations/{colocation}/invite', [ColocationController::class, 'sendInvitaion'])->middleware(['auth','colocation.role:owner'])->name('colocations.invite');
+    route::get('/invitations/{token}', [InvitationController::class, 'show'])->name('invitations.show');
+    Route::get('/invitations/accept/{token}', [InvitationController::class, 'accept'])->name('invitations.accept');
+    Route::get('/invitations/reject/{token}', [InvitationController::class, 'reject'])->name('invitations.reject');
 
 });
 
