@@ -6,7 +6,7 @@
     </h2>
 
     <form method="POST"
-          action="/invitations/{{ $invitation->token }}/accept">
+          action="{{ route('invitations.accept',$invitation->token) }}">
         @csrf
         <button class="bg-green-600 text-white px-4 py-2 rounded">
             Accept
@@ -14,7 +14,7 @@
     </form>
 
     <form method="POST"
-          action="/invitations/{{ $invitation->token }}/reject"
+          action="{{ route('invitations.reject',$invitation->token) }}"
           class="mt-3">
         @csrf
         <button class="bg-red-600 text-white px-4 py-2 rounded">

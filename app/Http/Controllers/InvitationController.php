@@ -18,17 +18,25 @@ class InvitationController extends Controller
     {
         $invitation = Invitation::where('token', $token)->where('status', 'pending')->where('expires_at', '>', now())->firstOrFail();
 
-        $user = Auth::user();
+        if (! Auth::check()) {
+            session(['invitation_token' => $token]);
 
-        // if ($user->email !== $invitation->email) {
-        //     abort(403);
-        // }
-
-        if ($user->colocations()->wherePivotNull('left_at')->exists()) {
-            abort(403);
+            return redirect()->route('register');
         }
 
-        $invitation->colocation()->members()->attach($user->id, ['role' => 'membre', 'joined_at' => now()]);
+        $user = Auth::user();
+        // dd($user->email, $invitation->email);
+        if ($user->email !== $invitation->email) {
+            abort(403);
+        }
+        // dd($user->colocations()->get());
+        // dd($user->colocations()->wherePivot('left_at', null)->toSql());
+
+        if ($user->colocations()->wherePivot('left_at', null)->exists()) {
+            abort(403, 'hhhh');
+        }
+
+        $invitation->colocation->users()->attach($user->id, ['role' => 'membre', 'joined_at' => now()]);
 
         $invitation->update(['status' => 'accepted']);
 
@@ -44,20 +52,20 @@ class InvitationController extends Controller
         return redirect('/')->with('info', 'Invitation rejected.');
     }
 
-    public function handle($token)
-    {
-        $invitation = Invitation::where('token', $token)->where('status', 'pending')->where('expires_at', '>', now())->firstOrFail();
+    // public function handle($token)
+    // {
+    //     $invitation = Invitation::where('token', $token)->where('status', 'pending')->where('expires_at', '>', now())->firstOrFail();
 
-        if (!Auth::check()) {
-            session(['invitation_token' => $token]);
-            // dd($info);
-            return redirect()->route('register');
-        }
+    //     if (!Auth::check()) {
+    //         session(['invitation_token' => $token]);
+    //         // dd($info);
+    //         return redirect()->route('register');
+    //     }
 
-        $invitation->colocation->users()->attach(Auth::id(), ['role' => 'membre', 'joined_at' => now()]);
-        // $invitation->update(['status' => 'accepted']);
+    //     $invitation->colocation->users()->attach(Auth::id(), ['role' => 'membre', 'joined_at' => now()]);
+    //     // $invitation->update(['status' => 'accepted']);
 
-        return redirect()->route('colocations.show', $invitation->colocation_id)->with('success', 'Invitation accepted!');
+    //     return redirect()->route('colocations.show', $invitation->colocation_id)->with('success', 'Invitation accepted!');
 
-    }
+    // }
 }
