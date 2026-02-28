@@ -70,7 +70,7 @@ class ColocationController extends Controller
             'expires_at' => now()->addDays(7),
         ]);
 
-        $link = route('invitations.show', $token);
+        $link = url('/invitations/' . $token);
         
         Mail::to($request->email)->send(new InvitationMail($link));
 

@@ -13,6 +13,11 @@ class Colocation extends Model
         'owner_id',
     ];
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->withPivot('role','joined_at','left_at')->withTimestamps();
+    }
+
     public function members()
     {
         return $this->belongsToMany(User::class)->withPivot('role','joined_at','left_at')->withTimestamps();

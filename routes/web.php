@@ -24,7 +24,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/colocations/{colocation}', [ColocationController::class, 'show'])->name('colocations.show');
 
     Route::post('/colocations/{colocation}/invite', [ColocationController::class, 'sendInvitaion'])->middleware(['auth','colocation.role:owner'])->name('colocations.invite');
-    route::get('/invitations/{token}', [InvitationController::class, 'show'])->name('invitations.show');
+    Route::get('/invitations/{token}', [InvitationController::class, 'show'])->name('invitations.show');
+    Route::get('/invitations/{token}', [InvitationController::class, 'handle'])->name('invitations.handle');
+    
     Route::get('/invitations/accept/{token}', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::get('/invitations/reject/{token}', [InvitationController::class, 'reject'])->name('invitations.reject');
 

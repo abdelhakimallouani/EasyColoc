@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -40,12 +41,24 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => User::count() == 0 ? 'admin' : 'user',
-        
+
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
+
+        if (session()->has('invitation_token')) {
+            $token = session('invitation_token');
+            $invitation = Invitation::where('token', $token)->where('status', 'pending')->where('expires_at', '>', now())->first();
+            if ($invitation) {
+                $invitation->colocation()->members()->attach($user->id, ['role' => 'member', 'joined_at' => now()]);
+                $invitation->update(['status' => 'accepted']);
+            }
+            session()->forget('invitation_token');
+
+            return redirect()->route('colocations.show', $invitation->colocation_id)->with('success', 'Invitation accepted!');
+        }
 
         return redirect(route('dashboard', absolute: false));
     }
