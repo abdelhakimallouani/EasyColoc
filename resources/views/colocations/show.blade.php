@@ -14,7 +14,7 @@
             <h3 class="text-lg font-semibold mb-4">
                 Ajouter un membre (Invitation)
             </h3>
-
+            
             <form method="POST" action="{{ route('colocations.invite', $colocation->id) }}">
 
                 @csrf
@@ -36,6 +36,18 @@
             <div>
                 {{ $member->name }} - {{ $member->pivot->role }}
             </div>
+        @endforeach
+
+        <form action="{{ route('categories.store', $colocation) }}" method="POST">
+            @csrf
+            <input type="text" name="name" placeholder="Category name">
+            <button type="submit">Add</button>
+        </form>
+
+        <h3>Categories</h3>
+
+        @foreach ($colocation->categories as $category)
+            <div>{{ $category->name }}</div>
         @endforeach
 
     </div>

@@ -4,7 +4,9 @@
         <h2 class="text-2xl font-bold mb-6">
             Ajouter Colocation
         </h2>
-
+        <p>
+            {{ session('error') }}
+        </p>
         <form method="POST" action="{{ route('colocations.store') }}">
             @csrf
 

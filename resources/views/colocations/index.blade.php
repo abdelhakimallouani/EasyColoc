@@ -9,6 +9,7 @@
     <a href="{{ route('colocations.create') }}" class="inline-block mb-4 bg-green-600 text-black px-4 py-2 rounded">
         Créer une colocation
     </a>
+    <p>{{ session('error') }}</p>
 
     <div class="grid md:grid-cols-2 gap-4">
 

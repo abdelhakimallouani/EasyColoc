@@ -4,6 +4,8 @@ use App\Http\Controllers\ColocationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\CategoryController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,6 +31,9 @@ Route::middleware('auth')->group(function () {
     
     Route::post('/invitations/{token}/accept', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::post('/invitations/{token}/reject', [InvitationController::class, 'reject'])->name('invitations.reject');
+
+    // Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/colocations/{colocation}', [CategoryController::class, 'store'])->name('categories.store');
 
 });
 

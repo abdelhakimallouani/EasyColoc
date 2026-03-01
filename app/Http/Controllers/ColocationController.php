@@ -36,7 +36,7 @@ class ColocationController extends Controller
         $hadActive = $user->colocations()->wherePivot('role', 'owner')->wherePivotNull('left_at')->exists();
 
         if ($hadActive) {
-            return redirect()->back()->with('error', 'You already have an active colocation.');
+            return redirect()->route('colocations.index')->with('error', 'You already have an active colocation.');
         }
 
         $colocation = Colocation::create([
