@@ -52,7 +52,8 @@ class ColocationController extends Controller
 
     public function show(Colocation $colocation)
     {
-        return view('colocations.show', compact('colocation'));
+        $members = $colocation->members()->withPivot('role', 'joined_at', 'left_at')->get();
+        return view('colocations.show', compact('colocation', 'members'));
     }
 
     public function sendInvitaion(Request $request, Colocation $colocation)

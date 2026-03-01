@@ -22,4 +22,9 @@ class Colocation extends Model
     {
         return $this->belongsToMany(User::class)->withPivot('role','joined_at','left_at')->withTimestamps();
     }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
 }
