@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ExpenseController;
 
 
 Route::get('/', function () {
@@ -34,6 +35,11 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
     Route::post('/colocations/{colocation}', [CategoryController::class, 'store'])->name('categories.store');
+
+
+    Route::get('/colocations/{colocation}/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
+    Route::get('/colocations/{colocation}/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
+    Route::post('/colocations/{colocation}/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
 
 });
 

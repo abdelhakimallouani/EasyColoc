@@ -14,7 +14,7 @@
             <h3 class="text-lg font-semibold mb-4">
                 Ajouter un membre (Invitation)
             </h3>
-            
+
             <form method="POST" action="{{ route('colocations.invite', $colocation->id) }}">
 
                 @csrf
@@ -30,6 +30,7 @@
 
         </div>
 
+        
         <h3>Members</h3>
 
         @foreach ($members as $member)
@@ -50,5 +51,6 @@
             <div>{{ $category->name }}</div>
         @endforeach
 
+        <a href="{{ route('expenses.index', $colocation) }}">voir expenses</a>
     </div>
 </x-app-layout>

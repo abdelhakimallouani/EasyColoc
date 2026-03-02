@@ -13,4 +13,8 @@ class Category extends Model
     {
         return $this->belongsTo(Colocation::class);
     }
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
 }
