@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\SettlementController;
 
 
 Route::get('/', function () {
@@ -40,6 +41,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/colocations/{colocation}/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
     Route::get('/colocations/{colocation}/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
     Route::post('/colocations/{colocation}/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+
+    Route::get('/colocations/{colocation}/settlements', [SettlementController::class, 'index'])->name('settlements.index');
+    Route::post('/colocations/{colocation}/settlements/generate', [SettlementController::class, 'generate'])->name('settlements.generate');
+    Route::patch('/settlements/{settlement}/paid', [SettlementController::class, 'markAsPaid'])->name('settlements.paid');
 
 });
 

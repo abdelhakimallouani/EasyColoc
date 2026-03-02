@@ -30,7 +30,7 @@
 
         </div>
 
-        
+
         <h3>Members</h3>
 
         @foreach ($members as $member)
@@ -52,5 +52,35 @@
         @endforeach
 
         <a href="{{ route('expenses.index', $colocation) }}">voir expenses</a>
+
+        <form action="{{ route('settlements.generate', $colocation) }}" method="POST">
+            @csrf
+            <button class="btn btn-primary">
+                Generate Settlements
+            </button>
+        </form>
+
+        <h4>Settlements</h4>
+
+        @foreach ($colocation->settlements as $settlement)
+            <div>
+                {{ $settlement->fromUser->name }}
+                owes
+                {{ $settlement->toUser->name }}
+                :
+                {{ $settlement->amount }} DH
+                ({{ $settlement->status }})
+                @if ($settlement->status == 'pending')
+                    <form action="{{ route('settlements.paid', $settlement) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Mark as Paid
+                        </button>
+                    </form>
+                @endif
+            
+            </div>
+        @endforeach
     </div>
 </x-app-layout>
