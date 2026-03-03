@@ -58,4 +58,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Expense::class, 'payer_id');
     }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 }

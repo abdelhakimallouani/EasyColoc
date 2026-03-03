@@ -5,7 +5,7 @@
         <main class="flex-1 p-6 lg:p-10 space-y-8 overflow-y-auto">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">{{ $colocation->name }}</h2>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">{{ $colocation->name }}</h2>
                     <p class="text-slate-500 mt-1">{{ $colocation->description ?? 'Aucune description disponible' }}</p>
                 </div>
 

@@ -7,11 +7,14 @@ use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\SettlementController;
+use App\Http\Controllers\Admin\UserController;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/invitations/accept/{token}', [InvitationController::class, 'accept'])->name('invitations.accept');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -31,11 +34,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/invitations/{token}', [InvitationController::class, 'show'])->name('invitations.show');
     // Route::get('/invitations/{token}', [InvitationController::class, 'handle'])->name('invitations.handle');
     
-    Route::post('/invitations/{token}/accept', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::post('/invitations/{token}/reject', [InvitationController::class, 'reject'])->name('invitations.reject');
 
     // Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
     Route::post('/colocations/{colocation}', [CategoryController::class, 'store'])->name('categories.store');
+
+    // Route::get('/colocations/{colocation}/membres', [ColocationController::class, 'members'])->name('colocations.members');
 
 
     Route::get('/colocations/{colocation}/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
@@ -46,6 +50,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/colocations/{colocation}/settlements/generate', [SettlementController::class, 'generate'])->name('settlements.generate');
     Route::patch('/settlements/{settlement}/paid', [SettlementController::class, 'markAsPaid'])->name('settlements.paid');
 
+});
+
+Route::middleware('auth')->prefix('admin')->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::patch('/users/{user}/toggle-ban', [UserController::class, 'toggleBan'])->name('admin.users.toggleBan');
 });
 
 require __DIR__.'/auth.php';

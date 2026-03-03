@@ -12,7 +12,7 @@
                             <li class="text-slate-800">Dépenses</li>
                         </ol>
                     </nav>
-                    <h2 class="text-3xl font-black text-slate-900 tracking-tight">Historique des dépenses</h2>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Historique des dépenses</h2>
                 </div>
 
                 <a href="{{ route('expenses.create', $colocation) }}" 

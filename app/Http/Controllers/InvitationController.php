@@ -17,10 +17,10 @@ class InvitationController extends Controller
     public function accept($token)
     {
         $invitation = Invitation::where('token', $token)->where('status', 'pending')->where('expires_at', '>', now())->firstOrFail();
+        // dd(Auth::check());
+        if (!Auth::check()) {
 
-        if (! Auth::check()) {
             session(['invitation_token' => $token]);
-
             return redirect()->route('register');
         }
 

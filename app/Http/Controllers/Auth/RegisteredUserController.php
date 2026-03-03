@@ -47,6 +47,17 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+        
+        if (session()->has('invitation_token')) {
+
+            $token = session('invitation_token');
+
+            session()->forget('invitation_token');
+
+            return redirect("/invitations/accept/$token");
+        }
+
+        return redirect(route('register', absolute: false));
 
         if (session()->has('invitation_token')) {
             $token = session('invitation_token');

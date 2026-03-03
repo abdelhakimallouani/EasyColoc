@@ -5,7 +5,7 @@
         <main class="flex-1 p-6 lg:p-10">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
                 <div>
-                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Mes Colocations</h2>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Mes Colocations</h2>
                     <p class="text-slate-500 mt-1">Gérez vos espaces partagés et suivez vos dépenses communes.</p>
                 </div>
 
